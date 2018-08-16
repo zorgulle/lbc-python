@@ -26,9 +26,11 @@ def list_ads():
         "search-text": request_params['search-text']
     }
     ads_page = connector.get_ads(params)
-
-    parser = Parser(ads_page)
-    ads = parser.get_ads()
+    try:
+        parser = Parser(ads_page)
+        ads = parser.get_ads()
+    except Exception as e:
+        print(e)
 
     return {'ads': ads}
 

@@ -10,6 +10,7 @@ class Parser:
         for ad in ads:
             extracted_ads.append({
                 'title': self.__get_title(ad),
+                'price': self.__get_price(ad),
             })
 
         return extracted_ads
@@ -22,3 +23,11 @@ class Parser:
         title = title_section.find('span').text
 
         return title
+
+    def __get_price(self, ad):
+        try:
+            price_as_text = ad.find('span', {'itemprop': 'price'}).text
+            price_clean = price_as_text.replace(' ', '')
+            return float(price_clean)
+        except Exception as e:
+            return None
