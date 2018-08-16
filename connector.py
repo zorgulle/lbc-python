@@ -12,4 +12,4 @@ class Connector:
         response = requests.get(self.url, params=args)
         response.raise_for_status()
 
-        return response
+        return response.text

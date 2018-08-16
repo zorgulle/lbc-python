@@ -2,6 +2,7 @@ from flask import request
 from flask_api import FlaskAPI
 
 from connector import Connector
+from parser import Parser
 
 app = FlaskAPI(__name__)
 
@@ -17,15 +18,19 @@ def list_ads():
     :return: Dict of ads found with the params
     """
 
-    request_params = request.args
     connector = Connector()
+
+    request_params = request.args
+
     params = {
         "search-text": request_params['search-text']
     }
-    connector = connector.get_ads(params)
+    ads_page = connector.get_ads(params)
 
+    parser = Parser(ads_page)
+    ads = parser.get_ads()
 
-    return {'ads': []}
+    return {'ads': ads}
 
 @app.route('/', methods=['GET'])
 def index():
